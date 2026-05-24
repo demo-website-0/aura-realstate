@@ -13,7 +13,8 @@ import LandownersPage from './components/LandownersPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import ProjectDetailPage from './components/ProjectDetailPage';
-import { projectsDetailList } from './data/projectsDetailData';
+import AdminPanel from './components/AdminPanel';
+import { getDynamicProjects } from './utils/projectsHelper';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
@@ -74,7 +75,8 @@ export default function App() {
 
   const handleSelectProject = (projectName: string) => {
     // Attempt dynamic mapping directly to our premium ProjectDetailPage
-    const matchedProject = projectsDetailList.find(
+    const projectsList = getDynamicProjects();
+    const matchedProject = projectsList.find(
       p => p.name.toLowerCase() === projectName.toLowerCase() || p.id.toLowerCase() === projectName.toLowerCase()
     );
     if (matchedProject) {
@@ -106,7 +108,28 @@ export default function App() {
         />
       </div>
       
-      {currentPath.startsWith('/projects/') && currentPath !== '/projects' ? (
+      {currentPath === '/aura-water-bottle/admin' || currentPath === '/aura-water-bottle/admin/' ? (
+        <AdminPanel
+          onNavigateHome={() => navigateTo('/')}
+          onSelectProjectOnSite={(slug) => navigateTo(`/projects/${slug}`)}
+        />
+      ) : currentPath === '/admin' || currentPath === '/login' || currentPath === '/dashboard' || currentPath === '/cms' ? (
+        <div className="min-h-screen bg-[#FDFCFC] flex flex-col items-center justify-center p-6 text-center font-sans select-none">
+          <div className="max-w-md space-y-4">
+            <h1 className="text-6xl font-serif text-[#2E3543] font-bold">404</h1>
+            <h2 className="text-xl font-serif text-[#2E3543] font-semibold">Page Not Found</h2>
+            <p className="text-sm text-[#2E3543]/70 leading-relaxed">
+              The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            <button
+              onClick={() => navigateTo('/')}
+              className="mt-6 inline-block bg-[#2E3543] text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-full cursor-pointer hover:bg-[#2E3543]/90 transition-colors"
+            >
+              Back to Home
+            </button>
+          </div>
+        </div>
+      ) : currentPath.startsWith('/projects/') && currentPath !== '/projects' ? (
         <ProjectDetailPage
           projectSlug={currentPath.substring('/projects/'.length)}
           onOpenBooking={handleOpenBooking}

@@ -19,7 +19,8 @@ import {
   Calendar,
   Compass
 } from 'lucide-react';
-import { DetailedProject, projectsDetailList } from '../data/projectsDetailData';
+import { DetailedProject } from '../data/projectsDetailData';
+import { getDynamicProjects } from '../utils/projectsHelper';
 import Footer from './Footer';
 
 interface ProjectDetailPageProps {
@@ -48,7 +49,7 @@ export default function ProjectDetailPage({
   const [downloadingBrochure, setDownloadingBrochure] = useState(false);
 
   // Find project in dictionary; fallback to Skyline if not found to prevent broken pages
-  const project: DetailedProject = projectsDetailList.find(p => p.slug === projectSlug) || projectsDetailList[0];
+  const project: DetailedProject = getDynamicProjects().find(p => p.slug === projectSlug) || getDynamicProjects()[0];
 
   // Dynamic values based on categories
   const categoryLabel = project.category === 'residential' ? 'Residential' : 'Commercial';
