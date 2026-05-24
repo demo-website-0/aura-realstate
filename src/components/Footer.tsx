@@ -281,6 +281,17 @@ export default function Footer({ onOpenBooking, onNavigateProjects, onNavigateBu
             © 2026 Aura Developments. Crafted with care in Dhaka, Bangladesh.
           </span>
           <div className="flex gap-4 font-normal">
+            {onNavigateAdmin && (
+              <>
+                <span 
+                  onClick={onNavigateAdmin}
+                  className="hover:text-[#5AC2EB] text-[#5AC2EB]/70 transition-colors cursor-pointer font-semibold"
+                >
+                  Console Portal
+                </span>
+                <span>·</span>
+              </>
+            )}
             <span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
             <span>·</span>
             <span className="hover:text-white transition-colors cursor-pointer">Terms of Use</span>
