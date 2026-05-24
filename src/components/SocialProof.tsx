@@ -46,7 +46,7 @@ export default function SocialProof({ onOpenBooking }: SocialProofProps) {
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 select-none">
         <iframe
           className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 aspect-video object-cover scale-[1.35] opacity-100"
-          src="https://www.youtube.com/embed/nNjYd1Qh1Ws?autoplay=1&mute=1&loop=1&playlist=nNjYd1Qh1Ws&controls=0&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&enablejsapi=1"
+          src="https://www.youtube.com/embed/M-j_LvEK2ZA?autoplay=1&mute=1&loop=1&playlist=M-j_LvEK2ZA&controls=0&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&enablejsapi=1"
           allow="autoplay; encrypted-media; picture-in-picture"
           title="Client Testimonials Background Video"
         />
