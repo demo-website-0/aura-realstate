@@ -108,27 +108,17 @@ export default function App() {
         />
       </div>
       
-      {currentPath === '/aura-water-bottle/admin' || currentPath === '/aura-water-bottle/admin/' ? (
+      {currentPath === '/aura-water-bottle/admin' || 
+       currentPath === '/aura-water-bottle/admin/' || 
+       currentPath === '/admin' || 
+       currentPath === '/admin/' || 
+       currentPath === '/login' || 
+       currentPath === '/dashboard' || 
+       currentPath === '/cms' ? (
         <AdminPanel
           onNavigateHome={() => navigateTo('/')}
           onSelectProjectOnSite={(slug) => navigateTo(`/projects/${slug}`)}
         />
-      ) : currentPath === '/admin' || currentPath === '/login' || currentPath === '/dashboard' || currentPath === '/cms' ? (
-        <div className="min-h-screen bg-[#FDFCFC] flex flex-col items-center justify-center p-6 text-center font-sans select-none">
-          <div className="max-w-md space-y-4">
-            <h1 className="text-6xl font-serif text-[#2E3543] font-bold">404</h1>
-            <h2 className="text-xl font-serif text-[#2E3543] font-semibold">Page Not Found</h2>
-            <p className="text-sm text-[#2E3543]/70 leading-relaxed">
-              The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-            </p>
-            <button
-              onClick={() => navigateTo('/')}
-              className="mt-6 inline-block bg-[#2E3543] text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-full cursor-pointer hover:bg-[#2E3543]/90 transition-colors"
-            >
-              Back to Home
-            </button>
-          </div>
-        </div>
       ) : currentPath.startsWith('/projects/') && currentPath !== '/projects' ? (
         <ProjectDetailPage
           projectSlug={currentPath.substring('/projects/'.length)}
@@ -228,6 +218,7 @@ export default function App() {
             onNavigateLandowners={() => navigateTo('/for-landowners')}
             onNavigateAbout={() => navigateTo('/about')}
             onNavigateContact={() => navigateTo('/contact')}
+            onNavigateAdmin={() => navigateTo('/admin')}
           />
         </>
       )}
