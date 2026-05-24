@@ -20,6 +20,7 @@ export default function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedAudience, setSelectedAudience] = useState<'buyer' | 'landowner' | 'general'>('general');
   const [selectedProjectName, setSelectedProjectName] = useState<string | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Sync state with browser back/forward buttons
   useEffect(() => {
@@ -31,6 +32,33 @@ export default function App() {
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  // Track dynamic scroll progress
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        const currentPercentage = (window.scrollY / totalScroll) * 100;
+        setScrollProgress(currentPercentage);
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Use ResizeObserver to keep the bar coordinates precise during client resizing/layouts
+    const observer = new ResizeObserver(() => {
+      handleScroll();
+    });
+    observer.observe(document.body);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, [currentPath]);
 
   // Soft high-fidelity routing trigger
   const navigateTo = (path: string) => {
@@ -70,6 +98,13 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#FDFCFC]" id="app-root">
+      {/* Scroll indicator bar at the absolute top of the viewport */}
+      <div className="fixed top-0 left-0 right-0 h-[3px] bg-[#5AC2EB]/10 z-[9999] pointer-events-none">
+        <div 
+          className="h-full bg-gradient-to-r from-[#5AC2EB]/60 to-[#8BACBA]/45 transition-all duration-75 ease-out" 
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
       
       {currentPath.startsWith('/projects/') && currentPath !== '/projects' ? (
         <ProjectDetailPage
@@ -132,11 +167,6 @@ export default function App() {
         />
       ) : (
         <>
-          {/* Scroll indicator bar at the absolute top of our main landing layout */}
-          <div className="fixed top-0 left-0 right-0 h-1 bg-[#5AC2EB]/30 z-50 pointer-events-none">
-            <div className="h-full bg-[#5AC2EB] w-1/3 animate-[pulse_2s_infinite]" />
-          </div>
-
           {/* Section 1: Hero */}
           <Hero 
             onOpenBooking={handleOpenBooking} 
